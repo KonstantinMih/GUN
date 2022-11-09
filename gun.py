@@ -151,6 +151,7 @@ class Target:
         self.x = rnd.randint(600, 780)
         self.y = rnd.randint(300, 550)
         self.r = rnd.randint(2, 50)
+        self.v = rnd.randint(10, 15)
         self.points = 0
         self.color = RED
         self.live = 1
@@ -161,6 +162,12 @@ class Target:
 
     def draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
+
+    def move(self):
+        ''' Двигает цели по вертикали со случайной скоростью '''
+        if (self.y + self.r) >= 600 or (self.y - self.r) <= 0:
+            self.v = -self.v
+        self.y += self.v
 
 
 pygame.init()
@@ -201,6 +208,10 @@ while not finished:
             gun.targetting(event)
 
     gun.draw()
+
+    for t in targets:
+        t.move()
+
     for b in balls:
         b.move()
         for i in range(2):
@@ -210,8 +221,8 @@ while not finished:
                 targets.append(Target(screen))
                 if (targets[i].x - targets[1 - i].x) ** 2 + (targets[i].y - targets[1 - i].y) ** 2 <= (targets[i].r + targets[1 - i].r) ** 2:
                     while (targets[i].x - targets[1 - i].x) ** 2 + (targets[i].y - targets[1 - i].y) ** 2 <= (targets[i].r + targets[1 - i].r) ** 2:
-                        targets.remove(targets[i])
-                        targets.append(Target(screen))
+                       targets.remove(targets[i])
+                       targets.append(Target(screen))
 
     gun.power_up()
     pygame.display.update()
