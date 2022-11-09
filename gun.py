@@ -15,7 +15,8 @@ CYAN = 0x00FFCC
 BLACK = (0, 0, 0)
 WHITE = 0xFFFFFF
 GREY = 0x7D7D7D
-GAME_COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
+LIGHTPINK = 0xFFB6C1
+GAME_COLORS = [BLUE, YELLOW, MAGENTA, CYAN]
 
 WIDTH = 800
 HEIGHT = 600
@@ -93,6 +94,7 @@ class Ball:
             return False
 
 class Rocket(Ball):
+    ''' Второй тип снарядов '''
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
         self.color = GREEN
@@ -178,7 +180,7 @@ class Target:
     def __init__(self, screen: pygame.Surface):
         """ Инициализация новой цели. """
         self.screen = screen
-        self.x = rnd.randint(600, 780)
+        self.x = rnd.randint(450, 780)
         self.y = rnd.randint(250, 450)
         self.r = rnd.randint(20, 50)
         self.v = rnd.randint(-15, 15)
@@ -202,6 +204,9 @@ class Target:
             self.v = -self.v
         self.y += self.v
 
+class Lissajous_target(Target):
+    def __init__(self, screen: pygame.Surface):
+        super().__init__(screen)
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
