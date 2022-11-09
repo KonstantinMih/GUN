@@ -180,8 +180,9 @@ while not finished:
     screen.fill(WHITE)
     for i in range(2):
         if (targets[i].x - targets[1-i].x)**2 + (targets[i].y - targets[1-i].y)**2 <= (targets[i].r + targets[1-i].r)**2:
-            targets.remove(targets[i])
-            targets.append(Target(screen))
+            while (targets[i].x - targets[1-i].x)**2 + (targets[i].y - targets[1-i].y)**2 <= (targets[i].r + targets[1-i].r)**2:
+                targets.remove(targets[i])
+                targets.append(Target(screen))
         targets[i].draw()
     for b in balls:
         b.draw()

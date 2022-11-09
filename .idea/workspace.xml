@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Реализованны две цели">
+    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Теперь цели не сливаются друг с другом">
       <change beforePath="$PROJECT_DIR$/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/gun.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +37,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668021883061</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Теперь цели не сливаются друг с другом">
+      <created>1668022338428</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668022338428</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -53,6 +60,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Реализованны две цели" />
-    <option name="LAST_COMMIT_MESSAGE" value="Реализованны две цели" />
+    <MESSAGE value="Теперь цели не сливаются друг с другом" />
+    <option name="LAST_COMMIT_MESSAGE" value="Теперь цели не сливаются друг с другом" />
   </component>
 </project>
