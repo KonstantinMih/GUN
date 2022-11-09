@@ -92,6 +92,41 @@ class Ball:
         else:
             return False
 
+class Rocket:
+    def __init__(self, screen: pygame.Surface, x = 40, y = 450):
+        self.screen = screen
+        self.vx = 0
+        self.vy = 0
+        self.x = x
+        self.y = y
+        self.r = 5
+        self.color = GREEN
+        self.live = 1
+
+    def draw(self):
+        if self.live == 1:
+         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
+        else:
+            pass
+
+    def move(self):
+        if (self.x + self.r) >= 800 or (self.y + self.r) >= 600:
+            self.live = 0
+        self.x += self.vx
+        self.y -= self.vy
+
+    def hittest(self, obj):
+        """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
+
+        Args:
+            obj: Обьект, с которым проверяется столкновение.
+        Returns:
+            Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
+        """
+        if ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) <= (self.r + obj.r) ** 2:
+            return True
+        else:
+            return False
 
 class Gun:
     def __init__(self, screen: pygame.Surface):
@@ -100,9 +135,19 @@ class Gun:
         self.f2_on = 0
         self.an = 1
         self.color = GREY
+        self.bullet = 0
 
     def fire2_start(self):
-        self.f2_on = 1
+        if event.button == 1:
+           self.f2_on = 1
+        if event.button == 3:
+            self.bullet += 5
+            new_rocket = Rocket(self.screen)
+            self.an = math.atan2((event.pos[1] - new_rocket.y), (event.pos[0] - new_rocket.x))
+            new_rocket.vx = 25 * math.cos(self.an)
+            new_rocket.vy = -25 * math.sin(self.an)
+            rockets.append(new_rocket)
+            self.f2_on = 0
 
     def fire2_end(self, event):
         """Выстрел мячом.
@@ -110,16 +155,16 @@ class Gun:
         Происходит при отпускании кнопки мыши.
         Начальные значения компонент скорости мяча vx и vy зависят от положения мыши.
         """
-        global balls, bullet
-        bullet += 1
-        new_ball = Ball(self.screen)
-        new_ball.r += 5
-        self.an = math.atan2((event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
-        new_ball.vx = self.f2_power * math.cos(self.an)
-        new_ball.vy = - self.f2_power * math.sin(self.an)
-        balls.append(new_ball)
-        self.f2_on = 0
-        self.f2_power = 10
+        if event.button == 1:
+          self.bullet += 1
+          new_ball = Ball(self.screen)
+          new_ball.r += 5
+          self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
+          new_ball.vx = self.f2_power * math.cos(self.an)
+          new_ball.vy = - self.f2_power * math.sin(self.an)
+          balls.append(new_ball)
+          self.f2_on = 0
+          self.f2_power = 10
 
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
@@ -177,6 +222,7 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 balls = []
+rockets = []
 targets = []
 
 clock = pygame.time.Clock()
@@ -193,6 +239,8 @@ while not finished:
         t.draw()
     for b in balls:
         b.draw()
+    for r in rockets:
+        r.draw()
 
     clock.tick(FPS)
     for event in pygame.event.get():
@@ -206,6 +254,14 @@ while not finished:
             gun.targetting(event)
 
     gun.draw()
+
+    for r in rockets:
+        r.move()
+        for i in range(2):
+            if r.hittest(targets[i]):
+                targets[i].hit()
+                targets.remove(targets[i])
+                targets.append(Target(screen))
 
     for b in balls:
         b.move()
