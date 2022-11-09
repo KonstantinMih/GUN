@@ -174,16 +174,18 @@ gun = Gun(screen)
 while len(targets) < 2:
     target = Target(screen)
     targets.append(target)
+for i in range(2):
+    if (targets[i].x - targets[1-i].x) ** 2 + (targets[i].y - targets[1-i].y) ** 2 <= (targets[i].r + targets[1-i].r) ** 2:
+        while (targets[i].x - targets[1-i].x) ** 2 + (targets[i].y - targets[1-i].y) ** 2 <= (targets[i].r + targets[1-i].r) ** 2:
+            targets.remove(targets[i])
+            targets.append(Target(screen))
+
 finished = False
 
 while not finished:
     screen.fill(WHITE)
-    for i in range(2):
-        if (targets[i].x - targets[1-i].x)**2 + (targets[i].y - targets[1-i].y)**2 <= (targets[i].r + targets[1-i].r)**2:
-            while (targets[i].x - targets[1-i].x)**2 + (targets[i].y - targets[1-i].y)**2 <= (targets[i].r + targets[1-i].r)**2:
-                targets.remove(targets[i])
-                targets.append(Target(screen))
-        targets[i].draw()
+    for t in targets:
+        t.draw()
     for b in balls:
         b.draw()
 
@@ -201,11 +203,16 @@ while not finished:
     gun.draw()
     for b in balls:
         b.move()
-        for t in targets:
-            if b.hittest(t):
-                t.hit()
-                targets.remove(t)
+        for i in range(2):
+            if b.hittest(targets[i]):
+                targets[i].hit()
+                targets.remove(targets[i])
                 targets.append(Target(screen))
+                if (targets[i].x - targets[1 - i].x) ** 2 + (targets[i].y - targets[1 - i].y) ** 2 <= (targets[i].r + targets[1 - i].r) ** 2:
+                    while (targets[i].x - targets[1 - i].x) ** 2 + (targets[i].y - targets[1 - i].y) ** 2 <= (targets[i].r + targets[1 - i].r) ** 2:
+                        targets.remove(targets[i])
+                        targets.append(Target(screen))
+
     gun.power_up()
     pygame.display.update()
 
