@@ -99,7 +99,7 @@ class Gun:
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
-        self.color = BLACK
+        self.color = GREY
 
     def fire2_start(self):
         self.f2_on = 1
@@ -126,7 +126,7 @@ class Gun:
         if event:
             self.an = math.atan2(event.pos[1]-450, event.pos[0]-20)
         if self.f2_on:
-            self.color = RED
+            self.color = YELLOW
         else:
             self.color = GREY
 
@@ -139,7 +139,7 @@ class Gun:
         if self.f2_on:
             if self.f2_power < 100:
                 self.f2_power += 1
-            self.color = RED
+            self.color = YELLOW
         else:
             self.color = GREY
 
@@ -178,8 +178,11 @@ finished = False
 
 while not finished:
     screen.fill(WHITE)
-    for t in targets:
-        t.draw()
+    for i in range(2):
+        if (targets[i].x - targets[1-i].x)**2 + (targets[i].y - targets[1-i].y)**2 <= (targets[i].r + targets[1-i].r)**2:
+            targets.remove(targets[i])
+            targets.append(Target(screen))
+        targets[i].draw()
     for b in balls:
         b.draw()
 
