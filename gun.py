@@ -167,15 +167,19 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 balls = []
+targets = []
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-target = Target(screen)
+while len(targets) < 2:
+    target = Target(screen)
+    targets.append(target)
 finished = False
 
 while not finished:
     screen.fill(WHITE)
-    target.draw()
+    for t in targets:
+        t.draw()
     for b in balls:
         b.draw()
 
@@ -193,10 +197,11 @@ while not finished:
     gun.draw()
     for b in balls:
         b.move()
-        if b.hittest(target) and target.live:
-            target.live = 0
-            target.hit()
-            target = Target(screen)
+        for t in targets:
+            if b.hittest(t):
+                t.hit()
+                targets.remove(t)
+                targets.append(Target(screen))
     gun.power_up()
     pygame.display.update()
 
