@@ -149,9 +149,9 @@ class Target:
         """ Инициализация новой цели. """
         self.screen = screen
         self.x = rnd.randint(600, 780)
-        self.y = rnd.randint(300, 550)
-        self.r = rnd.randint(2, 50)
-        self.v = rnd.randint(10, 15)
+        self.y = rnd.randint(250, 450)
+        self.r = rnd.randint(20, 50)
+        self.v = rnd.randint(-15, 15)
         self.points = 0
         self.color = RED
         self.live = 1
@@ -165,7 +165,10 @@ class Target:
 
     def move(self):
         ''' Двигает цели по вертикали со случайной скоростью '''
-        if (self.y + self.r) >= 600 or (self.y - self.r) <= 0:
+        if self.v == 0:
+            while self.v == 0:
+                self.v = rnd.randint(-15, 15)
+        if (self.y + self.r) >= 500 or (self.y - self.r) <= 0:
             self.v = -self.v
         self.y += self.v
 
@@ -181,11 +184,6 @@ gun = Gun(screen)
 while len(targets) < 2:
     target = Target(screen)
     targets.append(target)
-for i in range(2):
-    if (targets[i].x - targets[1-i].x) ** 2 + (targets[i].y - targets[1-i].y) ** 2 <= (targets[i].r + targets[1-i].r) ** 2:
-        while (targets[i].x - targets[1-i].x) ** 2 + (targets[i].y - targets[1-i].y) ** 2 <= (targets[i].r + targets[1-i].r) ** 2:
-            targets.remove(targets[i])
-            targets.append(Target(screen))
 
 finished = False
 
@@ -209,9 +207,6 @@ while not finished:
 
     gun.draw()
 
-    for t in targets:
-        t.move()
-
     for b in balls:
         b.move()
         for i in range(2):
@@ -219,11 +214,9 @@ while not finished:
                 targets[i].hit()
                 targets.remove(targets[i])
                 targets.append(Target(screen))
-                if (targets[i].x - targets[1 - i].x) ** 2 + (targets[i].y - targets[1 - i].y) ** 2 <= (targets[i].r + targets[1 - i].r) ** 2:
-                    while (targets[i].x - targets[1 - i].x) ** 2 + (targets[i].y - targets[1 - i].y) ** 2 <= (targets[i].r + targets[1 - i].r) ** 2:
-                       targets.remove(targets[i])
-                       targets.append(Target(screen))
 
+    for t in targets:
+        t.move()
     gun.power_up()
     pygame.display.update()
 

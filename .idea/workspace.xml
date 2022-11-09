@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Финальная версия &quot;двух целей&quot;">
+    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Бегающие мишени">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/gun.py" afterDir="false" />
     </list>
@@ -59,7 +59,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668023067108</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Бегающие мишени">
+      <created>1668024010472</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668024010472</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -78,6 +85,7 @@
     <MESSAGE value="Теперь цели не сливаются друг с другом" />
     <MESSAGE value="Теперь цели ТОЧНО не сливаются друг с другом" />
     <MESSAGE value="Финальная версия &quot;двух целей&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Финальная версия &quot;двух целей&quot;" />
+    <MESSAGE value="Бегающие мишени" />
+    <option name="LAST_COMMIT_MESSAGE" value="Бегающие мишени" />
   </component>
 </project>
