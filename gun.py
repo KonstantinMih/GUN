@@ -92,17 +92,12 @@ class Ball:
         else:
             return False
 
-class Rocket:
-    def __init__(self, screen: pygame.Surface, x = 40, y = 450):
-        self.screen = screen
-        self.vx = 0
-        self.vy = 0
-        self.x = x
-        self.y = y
-        self.r = 5
+class Rocket(Ball):
+    def __init__(self, screen: pygame.Surface):
+        super().__init__(screen)
         self.color = GREEN
         self.live = 1
-        self.time = 0
+        self.r = 5
 
     def draw(self):
         if self.live == 1:
@@ -117,19 +112,6 @@ class Rocket:
         self.x += self.vx
         self.y -= self.vy
         self.time += 1/30
-
-    def hittest(self, obj):
-        """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
-
-        Args:
-            obj: Обьект, с которым проверяется столкновение.
-        Returns:
-            Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
-        """
-        if ((self.x - obj.x) ** 2 + (self.y - obj.y) ** 2) <= (self.r + obj.r) ** 2:
-            return True
-        else:
-            return False
 
 class Gun:
     def __init__(self, screen: pygame.Surface):
