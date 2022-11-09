@@ -102,6 +102,7 @@ class Rocket:
         self.r = 5
         self.color = GREEN
         self.live = 1
+        self.time = 0
 
     def draw(self):
         if self.live == 1:
@@ -112,8 +113,10 @@ class Rocket:
     def move(self):
         if (self.x + self.r) >= 800 or (self.y + self.r) >= 600:
             self.live = 0
+        self.vy -= 9.8 * self.time
         self.x += self.vx
         self.y -= self.vy
+        self.time += 1/30
 
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
@@ -144,8 +147,8 @@ class Gun:
             self.bullet += 5
             new_rocket = Rocket(self.screen)
             self.an = math.atan2((event.pos[1] - new_rocket.y), (event.pos[0] - new_rocket.x))
-            new_rocket.vx = 25 * math.cos(self.an)
-            new_rocket.vy = -25 * math.sin(self.an)
+            new_rocket.vx = 50 * math.cos(self.an)
+            new_rocket.vy = -50 * math.sin(self.an)
             rockets.append(new_rocket)
             self.f2_on = 0
 
