@@ -168,8 +168,12 @@ class Gun:
 
     def draw(self):
         if self.f2_on == 0:
+            pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 15, 20, 30))
+            pygame.draw.rect(screen, RED, (self.x - 5, self.y - 10, 10, 20))
             pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + 35 * math.cos(self.an), self.y + 35 * math.sin(self.an)), 7)
         else:
+            pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 15, 20, 30))
+            pygame.draw.rect(screen, RED, (self.x - 5, self.y - 10, 10, 20))
             pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + (35 + self.f2_power) * math.cos(self.an), self.y + (35 + self.f2_power) * math.sin(self.an)), 7)
 
     def power_up(self):
@@ -265,7 +269,7 @@ def targets_append(targets: list, screen: pygame.Surface):
         targets - список целей
         screen - экран"""
 
-    if rnd.randint(-2, 2) != 0:
+    if rnd.randint(-2, 1) != 0:
         target = Target(screen)
         targets.append(target)
     else:
