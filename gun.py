@@ -3,6 +3,7 @@ from random import choice
 import random as rnd
 
 import pygame
+import pygame.font
 
 FPS = 30
 
@@ -147,13 +148,11 @@ class Gun:
         self.f2_on = 0
         self.an = 1
         self.color = GREY
-        self.bullet = 0
 
     def fire2_start(self):
         if event.button == 1:
             self.f2_on = 1
         if event.button == 3:
-            self.bullet += 5
             new_rocket = Rocket(self.screen, self.x, self.y)
             self.an = math.atan2((event.pos[1] - new_rocket.y), (event.pos[0] - new_rocket.x))
             new_rocket.vx = 50 * math.cos(self.an)
@@ -168,7 +167,6 @@ class Gun:
         Начальные значения компонент скорости мяча vx и vy зависят от положения мыши.
         """
         if event.button == 1:
-           self.bullet += 1
            new_ball = Ball(self.screen, self.x, self.y)
            new_ball.r += 5
            self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
@@ -207,7 +205,7 @@ class Gun:
 
     def move(self, keys):
         if keys[pygame.K_w]:
-            if self.y >= 20:
+            if self.y >= 40:
                 self.y -= 10
             else:
                 pass
@@ -241,7 +239,7 @@ class Target:
         if self.v == 0:
             while self.v == 0:
                 self.v = rnd.randint(-15, 15)
-        if (self.y + self.r) >= 500 or (self.y - self.r) <= 0:
+        if (self.y + self.r) >= 500 or (self.y - self.r) <= 20:
             self.v = -self.v
         self.y += self.v
 
@@ -299,7 +297,9 @@ def targets_append(targets: list, screen: pygame.Surface):
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-bullet = 0
+text = pygame.font.Font(None, 24)
+score = 0
+life = 3
 balls = []
 rockets = []
 targets = []
@@ -344,7 +344,9 @@ while not finished:
     for bmb in bombs:
         bmb.move()
         if bmb.htest(gun):
-            finished = True
+            life -= 0.5
+            if life <= 0:
+                finished = True
         if bmb.x - bmb.r < 20:
             bombs.remove(bmb)
 
@@ -356,6 +358,7 @@ while not finished:
         for i in range(2):
             if r.hittest(targets[i]):
                 targets[i].hit()
+                score += targets[i].points
                 targets.remove(targets[i])
                 if r in rockets:
                     rockets.remove(r)
@@ -366,6 +369,7 @@ while not finished:
         for i in range(2):
             if b.hittest(targets[i]):
                 targets[i].hit()
+                score += targets[i].points
                 targets.remove(targets[i])
                 if b in balls:
                     balls.remove(b)
@@ -375,6 +379,17 @@ while not finished:
         t.move()
 
     gun.power_up()
+
+    score_board = text.render('Score' + ' ' + str(score), True, BLACK)
+    HP = text.render('Life' + ' ' + str(int(life)), True, BLACK)
+    help_wanted = text.render('For help hold "H"', True, BLACK)
+    help_text = text.render('Hold "w" for go up or "s" for go down, Left Mouse Button - Ball, Right Mouse Button - rockets', True, BLACK)
+    screen.blit(score_board, (1, 1))
+    screen.blit(HP, (750, 0))
+    if keys[pygame.K_h]:
+        screen.blit(help_text, (0, 580))
+    else:
+        screen.blit(help_wanted, (0, 580))
     pygame.display.update()
 
 pygame.quit()

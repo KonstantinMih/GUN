@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="ТАНК">
+    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="сделан ответный огонь">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/gun.py" afterDir="false" />
     </list>
@@ -150,7 +150,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668111590740</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="сделан ответный огонь">
+      <created>1668120492133</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1668120492133</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -179,6 +186,7 @@
     <MESSAGE value="Катающаяся пушка" />
     <MESSAGE value="&quot;Взрывающиеся&quot; ракеты со снарядами" />
     <MESSAGE value="ТАНК" />
-    <option name="LAST_COMMIT_MESSAGE" value="ТАНК" />
+    <MESSAGE value="сделан ответный огонь" />
+    <option name="LAST_COMMIT_MESSAGE" value="сделан ответный огонь" />
   </component>
 </project>
