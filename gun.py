@@ -317,6 +317,8 @@ while not finished:
             if r.hittest(targets[i]):
                 targets[i].hit()
                 targets.remove(targets[i])
+                if r in rockets:
+                    rockets.remove(r)
                 targets_append(targets, screen)
 
     for b in balls:
@@ -325,6 +327,8 @@ while not finished:
             if b.hittest(targets[i]):
                 targets[i].hit()
                 targets.remove(targets[i])
+                if b in balls:
+                    balls.remove(b)
                 targets.append(Target(screen))
 
     for t in targets:
