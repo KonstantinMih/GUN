@@ -93,8 +93,9 @@ class Ball:
         else:
             return False
 
+
 class Rocket(Ball):
-    ''' Второй тип снарядов '''
+    """ Второй тип снарядов """
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
         self.color = GREEN
@@ -103,7 +104,7 @@ class Rocket(Ball):
 
     def draw(self):
         if self.live == 1:
-         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
+            pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
         else:
             pass
 
@@ -114,6 +115,7 @@ class Rocket(Ball):
         self.x += self.vx
         self.y -= self.vy
         self.time += 1/30
+
 
 class Gun:
     def __init__(self, screen: pygame.Surface):
@@ -126,7 +128,7 @@ class Gun:
 
     def fire2_start(self):
         if event.button == 1:
-           self.f2_on = 1
+            self.f2_on = 1
         if event.button == 3:
             self.bullet += 5
             new_rocket = Rocket(self.screen)
@@ -167,6 +169,7 @@ class Gun:
             pygame.draw.line(self.screen, self.color, (20, 450), (20 + 35 * math.cos(self.an), 450 + 35 * math.sin(self.an)), 7)
         else:
             pygame.draw.line(self.screen, self.color, (20, 450), (20 + (35 + self.f2_power) * math.cos(self.an), 450 + (35 + self.f2_power) * math.sin(self.an)), 7)
+
     def power_up(self):
         if self.f2_on:
             if self.f2_power < 100:
@@ -180,13 +183,12 @@ class Target:
     def __init__(self, screen: pygame.Surface):
         """ Инициализация новой цели. """
         self.screen = screen
-        self.x = rnd.randint(450, 780)
+        self.x = rnd.randint(450, 690)
         self.y = rnd.randint(250, 450)
         self.r = rnd.randint(20, 50)
         self.v = rnd.randint(-15, 15)
         self.points = 0
         self.color = RED
-        self.live = 1
 
     def hit(self, points=1):
         """Попадание шарика в цель."""
@@ -196,7 +198,7 @@ class Target:
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.r)
 
     def move(self):
-        ''' Двигает цели по вертикали со случайной скоростью '''
+        """Двигает цели по вертикали со случайной скоростью"""
         if self.v == 0:
             while self.v == 0:
                 self.v = rnd.randint(-15, 15)
@@ -204,9 +206,54 @@ class Target:
             self.v = -self.v
         self.y += self.v
 
-class Lissajous_target(Target):
+
+class LissajousTarget(Target):
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
+        self.color = LIGHTPINK
+        self.time = 0
+        self.omegaX = rnd.randrange(-15, 15)
+        self.omegaY = rnd.randrange(-15, 15)
+        self.Ax = rnd.randint(-100, 100)
+        self.Ay = rnd.randint(-100, 100)
+        self.phase = rnd.randrange(-4, 4)
+        self.x_0 = self.x
+        self.y_0 = self.y
+
+    def check(self):
+        """Смотрит, чтобы цели не были слишком медленными и не топтались на месте"""
+        if -5 <= self.omegaX <= 5:
+            while -5 <= self.omegaX <= 5:
+                self.omegaX = rnd.randrange(-15, 15)
+        if -5 <= self.omegaY <= 5:
+            while -5 <= self.omegaY <= 5:
+                self.omegaY = rnd.randrange(-15, 15)
+        if -30 <= self.Ax <= 30:
+            while -30 <= self.Ax <= 30:
+                self.Ax = rnd.randrange(-100, 100)
+        if -30 <= self.Ay <= 30:
+            while -30 <= self.Ay <= 30:
+                self.Ay = rnd.randrange(-100, 100)
+
+    def move(self):
+        self.check()
+        self.x = self.x_0 + self.Ax * math.cos(self.omegaX * self.time + self.phase)
+        self.y = self.y_0 + self.Ay * math.cos(self.omegaY * self.time)
+        self.time += 1/30
+
+
+def targets_append(targets: list, screen: pygame.Surface):
+    """ Создаёт новую цель (с вероятностью 2/5 - обычную, с 1/5 - Лиссажу)
+
+        targets - список целей
+        screen - экран"""
+
+    if rnd.randint(-2, 2) != 0:
+        target = Target(screen)
+        targets.append(target)
+    else:
+        target = LissajousTarget(screen)
+        targets.append(target)
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -218,8 +265,7 @@ targets = []
 clock = pygame.time.Clock()
 gun = Gun(screen)
 while len(targets) < 2:
-    target = Target(screen)
-    targets.append(target)
+    targets_append(targets, screen)
 
 finished = False
 
@@ -251,7 +297,7 @@ while not finished:
             if r.hittest(targets[i]):
                 targets[i].hit()
                 targets.remove(targets[i])
-                targets.append(Target(screen))
+                targets_append(targets, screen)
 
     for b in balls:
         b.move()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Сделал я это ваше &quot;наследование&quot;">
+    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Заготовка на два типа целей (а теперь спать)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/gun.py" afterDir="false" />
     </list>
@@ -101,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668037050944</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Заготовка на два типа целей (а теперь спать)">
+      <created>1668038230322</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1668038230322</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,6 +130,7 @@
     <MESSAGE value="Бегающие мишени" />
     <MESSAGE value="Реализованы два типа снаряда (можно использовать наследование, но в такой степени лень)" />
     <MESSAGE value="Сделал я это ваше &quot;наследование&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Сделал я это ваше &quot;наследование&quot;" />
+    <MESSAGE value="Заготовка на два типа целей (а теперь спать)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Заготовка на два типа целей (а теперь спать)" />
   </component>
 </project>
