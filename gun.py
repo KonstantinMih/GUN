@@ -96,8 +96,8 @@ class Ball:
 
 class Rocket(Ball):
     """ Второй тип снарядов """
-    def __init__(self, screen: pygame.Surface):
-        super().__init__(screen)
+    def __init__(self, screen: pygame.Surface, x=20, y=450):
+        super().__init__(screen, x, y)
         self.color = GREEN
         self.live = 1
         self.r = 5
@@ -120,6 +120,8 @@ class Rocket(Ball):
 class Gun:
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
+        self.x = 20
+        self.y = 450
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
@@ -131,7 +133,7 @@ class Gun:
             self.f2_on = 1
         if event.button == 3:
             self.bullet += 5
-            new_rocket = Rocket(self.screen)
+            new_rocket = Rocket(self.screen, self.x, self.y)
             self.an = math.atan2((event.pos[1] - new_rocket.y), (event.pos[0] - new_rocket.x))
             new_rocket.vx = 50 * math.cos(self.an)
             new_rocket.vy = -50 * math.sin(self.an)
@@ -146,7 +148,7 @@ class Gun:
         """
         if event.button == 1:
           self.bullet += 1
-          new_ball = Ball(self.screen)
+          new_ball = Ball(self.screen, self.x, self.y)
           new_ball.r += 5
           self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
           new_ball.vx = self.f2_power * math.cos(self.an)
@@ -158,7 +160,7 @@ class Gun:
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
         if event:
-            self.an = math.atan2(event.pos[1]-450, event.pos[0]-20)
+            self.an = math.atan2(event.pos[1]-self.y, event.pos[0]-self.x)
         if self.f2_on:
             self.color = YELLOW
         else:
@@ -166,9 +168,9 @@ class Gun:
 
     def draw(self):
         if self.f2_on == 0:
-            pygame.draw.line(self.screen, self.color, (20, 450), (20 + 35 * math.cos(self.an), 450 + 35 * math.sin(self.an)), 7)
+            pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + 35 * math.cos(self.an), self.y + 35 * math.sin(self.an)), 7)
         else:
-            pygame.draw.line(self.screen, self.color, (20, 450), (20 + (35 + self.f2_power) * math.cos(self.an), 450 + (35 + self.f2_power) * math.sin(self.an)), 7)
+            pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + (35 + self.f2_power) * math.cos(self.an), self.y + (35 + self.f2_power) * math.sin(self.an)), 7)
 
     def power_up(self):
         if self.f2_on:
@@ -177,6 +179,18 @@ class Gun:
             self.color = YELLOW
         else:
             self.color = GREY
+
+    def move(self, event):
+        if event.key == pygame.K_w:
+            if self.y >= 20:
+                self.y -= 5
+            else:
+                pass
+        if event.key == pygame.K_s:
+            if self.y <= 450:
+                self.y += 5
+            else:
+                pass
 
 
 class Target:
@@ -291,6 +305,8 @@ while not finished:
             gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
+        elif event.type == pygame.KEYDOWN:
+            gun.move(event)
 
     gun.draw()
 
