@@ -241,6 +241,9 @@ class LissajousTarget(Target):
         self.y = self.y_0 + self.Ay * math.cos(self.omegaY * self.time)
         self.time += 1/30
 
+    def hit(self, points=1):
+        self.points += 3 * points
+
 
 def targets_append(targets: list, screen: pygame.Surface):
     """ Создаёт новую цель (с вероятностью 2/5 - обычную, с 1/5 - Лиссажу)
