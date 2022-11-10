@@ -117,6 +117,27 @@ class Rocket(Ball):
         self.time += 1/30
 
 
+class Bomb(Ball):
+    def __init__(self, screen: pygame.Surface, x, y):
+        super().__init__(screen, x, y)
+        self.color = MAGENTA
+        self.vx = 10
+
+    def draw(self):
+        pygame.draw.ellipse(screen, self.color, (self.x - self.r, self.y - self.r/2, 2 * self.r, self.r))
+
+    def move(self):
+        if self.x - self.r >= 20:
+            self.x -= self.vx
+        else:
+            pass
+
+    def htest(self, obj):
+        if (obj.y - 15 <= self.y <= obj.y + 15) and (math.fabs(self.x - obj.x) <= 10 + self.r):
+            return True
+        else:
+            return False
+
 class Gun:
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
@@ -187,12 +208,12 @@ class Gun:
     def move(self, keys):
         if keys[pygame.K_w]:
             if self.y >= 20:
-                self.y -= 5
+                self.y -= 10
             else:
                 pass
         if keys[pygame.K_s]:
-            if self.y <= 450:
-                self.y += 5
+            if self.y <= 480:
+                self.y += 10
             else:
                 pass
 
@@ -229,7 +250,6 @@ class LissajousTarget(Target):
     def __init__(self, screen: pygame.Surface):
         super().__init__(screen)
         self.color = LIGHTPINK
-        self.time = 0
         self.omegaX = rnd.randrange(-15, 15)
         self.omegaY = rnd.randrange(-15, 15)
         self.Ax = rnd.randint(-100, 100)
@@ -237,6 +257,7 @@ class LissajousTarget(Target):
         self.phase = rnd.randrange(-4, 4)
         self.x_0 = self.x
         self.y_0 = self.y
+        self.time = 0
 
     def check(self):
         """Смотрит, чтобы цели не были слишком медленными и не топтались на месте"""
@@ -282,6 +303,7 @@ bullet = 0
 balls = []
 rockets = []
 targets = []
+bombs = []
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
@@ -298,6 +320,8 @@ while not finished:
         b.draw()
     for r in rockets:
         r.draw()
+    for bmb in bombs:
+        bmb.draw()
 
     keys = pygame.key.get_pressed()
 
@@ -311,6 +335,18 @@ while not finished:
             gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
+
+    for t in targets:
+        if rnd.randint(-1, 150) <= 0:
+            bomb = Bomb(screen, t.x - t.r - 10, t.y)
+            bombs.append(bomb)
+
+    for bmb in bombs:
+        bmb.move()
+        if bmb.htest(gun):
+            finished = True
+        if bmb.x - bmb.r < 20:
+            bombs.remove(bmb)
 
     gun.move(keys)
     gun.draw()
@@ -337,6 +373,7 @@ while not finished:
 
     for t in targets:
         t.move()
+
     gun.power_up()
     pygame.display.update()
 
