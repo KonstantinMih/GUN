@@ -147,15 +147,15 @@ class Gun:
         Начальные значения компонент скорости мяча vx и vy зависят от положения мыши.
         """
         if event.button == 1:
-          self.bullet += 1
-          new_ball = Ball(self.screen, self.x, self.y)
-          new_ball.r += 5
-          self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
-          new_ball.vx = self.f2_power * math.cos(self.an)
-          new_ball.vy = - self.f2_power * math.sin(self.an)
-          balls.append(new_ball)
-          self.f2_on = 0
-          self.f2_power = 10
+           self.bullet += 1
+           new_ball = Ball(self.screen, self.x, self.y)
+           new_ball.r += 5
+           self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
+           new_ball.vx = self.f2_power * math.cos(self.an)
+           new_ball.vy = - self.f2_power * math.sin(self.an)
+           balls.append(new_ball)
+           self.f2_on = 0
+           self.f2_power = 10
 
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
@@ -180,13 +180,13 @@ class Gun:
         else:
             self.color = GREY
 
-    def move(self, event):
-        if event.key == pygame.K_w:
+    def move(self, keys):
+        if keys[pygame.K_w]:
             if self.y >= 20:
                 self.y -= 5
             else:
                 pass
-        if event.key == pygame.K_s:
+        if keys[pygame.K_s]:
             if self.y <= 450:
                 self.y += 5
             else:
@@ -295,6 +295,8 @@ while not finished:
     for r in rockets:
         r.draw()
 
+    keys = pygame.key.get_pressed()
+
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -305,9 +307,8 @@ while not finished:
             gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
-        elif event.type == pygame.KEYDOWN:
-            gun.move(event)
 
+    gun.move(keys)
     gun.draw()
 
     for r in rockets:

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Изменено количество очков, выдаваемое за Лиссажу">
+    <list default="true" id="7faeb212-69e1-41a5-9490-87608ce3be27" name="Changes" comment="Движение пушки (кликер)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/gun.py" afterDir="false" />
     </list>
@@ -122,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668105575178</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Движение пушки (кликер)">
+      <created>1668108929129</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1668108929129</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -147,6 +154,7 @@
     <MESSAGE value="Заготовка на два типа целей (а теперь спать)" />
     <MESSAGE value="Реализовано наличие двух целей" />
     <MESSAGE value="Изменено количество очков, выдаваемое за Лиссажу" />
-    <option name="LAST_COMMIT_MESSAGE" value="Изменено количество очков, выдаваемое за Лиссажу" />
+    <MESSAGE value="Движение пушки (кликер)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Движение пушки (кликер)" />
   </component>
 </project>
