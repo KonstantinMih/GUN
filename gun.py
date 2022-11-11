@@ -134,7 +134,7 @@ class Bomb(Ball):
             pass
 
     def htest(self, obj):
-        if (obj.y - 15 <= self.y <= obj.y + 15) and ((self.x - obj.x) ** 2 <= (10 + self.r) ** 2):
+        if (obj.y - 20 <= self.y <= obj.y + 20) and ((self.x - obj.x) ** 2 <= (10 + self.r) ** 2):
             return True
         else:
             return False
@@ -188,12 +188,12 @@ class Gun:
 
     def draw(self):
         if self.f2_on == 0:
-            pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 15, 20, 30))
+            pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 20, 20, 40))
             pygame.draw.rect(screen, RED, (self.x - 5, self.y - 10, 10, 20))
             pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + 35 * math.cos(self.an),
                                                                          self.y + 35 * math.sin(self.an)), 7)
         else:
-            pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 15, 20, 30))
+            pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 20, 20, 40))
             pygame.draw.rect(screen, RED, (self.x - 5, self.y - 10, 10, 20))
             pygame.draw.line(self.screen, self.color, (self.x, self.y),
                              (self.x + (35 + self.f2_power) * math.cos(self.an),
@@ -342,7 +342,7 @@ while not finished:
             gun.targetting(event)
 
     for t in targets:
-        if rnd.randint(-1, 150) <= 0:
+        if rnd.randint(-1, 80) <= 0:
             bomb = Bomb(screen, t.x - t.r - 10, t.y)
             bombs.append(bomb)
 
@@ -398,14 +398,6 @@ while not finished:
         screen.blit(help_wanted, (0, 580))
     pygame.display.update()
 
-
-'''final_text = pygame.font.Font(None, 50)
-Final_score = final_text.render('Final score:' + ' ' + str(score), True, BLACK)
-tip = text.render('Press any key to quit', True, BLACK)
-screen.blit(Final_score, (350, 250))
-screen.blit(tip, (450, 250))
-clock.tick(FPS)
-pygame.time.wait(20000)'''
 
 pygame.quit()
 
