@@ -134,10 +134,11 @@ class Bomb(Ball):
             pass
 
     def htest(self, obj):
-        if (obj.y - 15 <= self.y <= obj.y + 15) and (math.fabs(self.x - obj.x) <= 10 + self.r):
+        if (obj.y - 15 <= self.y <= obj.y + 15) and ((self.x - obj.x) ** 2 <= (10 + self.r) ** 2):
             return True
         else:
             return False
+
 
 class Gun:
     def __init__(self, screen: pygame.Surface):
@@ -167,14 +168,14 @@ class Gun:
         Начальные значения компонент скорости мяча vx и vy зависят от положения мыши.
         """
         if event.button == 1:
-           new_ball = Ball(self.screen, self.x, self.y)
-           new_ball.r += 5
-           self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
-           new_ball.vx = self.f2_power * math.cos(self.an)
-           new_ball.vy = - self.f2_power * math.sin(self.an)
-           balls.append(new_ball)
-           self.f2_on = 0
-           self.f2_power = 10
+            new_ball = Ball(self.screen, self.x, self.y)
+            new_ball.r += 5
+            self.an = math.atan2((event.pos[1] - new_ball.y), (event.pos[0] - new_ball.x))
+            new_ball.vx = self.f2_power * math.cos(self.an)
+            new_ball.vy = - self.f2_power * math.sin(self.an)
+            balls.append(new_ball)
+            self.f2_on = 0
+            self.f2_power = 10
 
     def targetting(self, event):
         """Прицеливание. Зависит от положения мыши."""
@@ -189,11 +190,14 @@ class Gun:
         if self.f2_on == 0:
             pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 15, 20, 30))
             pygame.draw.rect(screen, RED, (self.x - 5, self.y - 10, 10, 20))
-            pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + 35 * math.cos(self.an), self.y + 35 * math.sin(self.an)), 7)
+            pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + 35 * math.cos(self.an),
+                                                                         self.y + 35 * math.sin(self.an)), 7)
         else:
             pygame.draw.rect(screen, YELLOW, (self.x - 10, self.y - 15, 20, 30))
             pygame.draw.rect(screen, RED, (self.x - 5, self.y - 10, 10, 20))
-            pygame.draw.line(self.screen, self.color, (self.x, self.y), (self.x + (35 + self.f2_power) * math.cos(self.an), self.y + (35 + self.f2_power) * math.sin(self.an)), 7)
+            pygame.draw.line(self.screen, self.color, (self.x, self.y),
+                             (self.x + (35 + self.f2_power) * math.cos(self.an),
+                              self.y + (35 + self.f2_power) * math.sin(self.an)), 7)
 
     def power_up(self):
         if self.f2_on:
@@ -295,6 +299,7 @@ def targets_append(targets: list, screen: pygame.Surface):
         target = LissajousTarget(screen)
         targets.append(target)
 
+
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 text = pygame.font.Font(None, 24)
@@ -345,7 +350,7 @@ while not finished:
         bmb.move()
         if bmb.htest(gun):
             life -= 0.5
-            if life <= 0:
+            if life <= 0.5:
                 finished = True
         if bmb.x - bmb.r < 20:
             bombs.remove(bmb)
@@ -383,13 +388,48 @@ while not finished:
     score_board = text.render('Score' + ' ' + str(score), True, BLACK)
     HP = text.render('Life' + ' ' + str(int(life)), True, BLACK)
     help_wanted = text.render('For help hold "H"', True, BLACK)
-    help_text = text.render('Hold "w" for go up or "s" for go down, Left Mouse Button - Ball, Right Mouse Button - rockets', True, BLACK)
+    help_text = text.render('Hold "w" for go up or "s" for go down, Left Mouse Button - Ball, Right Mouse Button - '
+                            'rockets', True, BLACK)
     screen.blit(score_board, (1, 1))
     screen.blit(HP, (750, 0))
     if keys[pygame.K_h]:
         screen.blit(help_text, (0, 580))
     else:
         screen.blit(help_wanted, (0, 580))
+    pygame.display.update()
+
+
+'''final_text = pygame.font.Font(None, 50)
+Final_score = final_text.render('Final score:' + ' ' + str(score), True, BLACK)
+tip = text.render('Press any key to quit', True, BLACK)
+screen.blit(Final_score, (350, 250))
+screen.blit(tip, (450, 250))
+clock.tick(FPS)
+pygame.time.wait(20000)'''
+
+pygame.quit()
+
+pygame.init()
+
+end_screen = pygame.display.set_mode((WIDTH, HEIGHT))
+final_text = pygame.font.Font(None, 35)
+text = pygame.font.Font(None, 24)
+
+clock = pygame.time.Clock()
+
+finished = False
+
+while not finished:
+    end_screen.fill(BLACK)
+    Final_score = final_text.render('Final score:' + ' ' + str(score), True, WHITE)
+    tip = text.render('Press any key to quit', True, WHITE)
+    end_screen.blit(Final_score, (250, 250))
+    end_screen.blit(tip, (250, 350))
+    clock.tick(FPS)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+            finished = True
+
     pygame.display.update()
 
 pygame.quit()
